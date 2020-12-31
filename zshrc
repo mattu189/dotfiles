@@ -30,7 +30,7 @@ setopt auto_menu
 setopt magic_equal_subst
 setopt auto_param_keys
 
-fpath=(/usr/local/share/zsh-completions $fpath)
+FPATH=/usr/local/share/zsh-completions:$FPATH
 
 export LANG=ja_JP.UTF-8
 export PATH="/usr/local/sbin:$PATH"
@@ -39,6 +39,13 @@ export PATH="/usr/sbin:$PATH"
 export PATH="/usr/bin:$PATH"
 export PATH="/sbin:$PATH"
 export PATH="/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                              /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin \
