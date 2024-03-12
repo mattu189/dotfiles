@@ -1,8 +1,17 @@
+export LANG=ja_JP.UTF-8
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/sbin:$PATH"
+export PATH="/usr/bin:$PATH"
+export PATH="/sbin:$PATH"
+export PATH="/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+
 PROMPT='%F{green} %~
 %F{magenta}⟩%f'
 
 cdls(){
-	\cd "$@" && ls -p --color=auto
+	\cd "$@" && ls -p --color
 }
 alias cd="cdls"
 
@@ -10,14 +19,19 @@ autoload -Uz colors
 colors
 autoload -Uz add-zsh-hook
 autoload -U colors; colors
-autoload -U compinit; compinit
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
 
 alias vi='vim'
 alias l="ll"
 alias df="df -h"
-alias ls='/usr/local/bin/gls -p  --color=auto'
-alias la='/usr/local/bin/gls -a -p --color=auto'
-alias ll='/usr/local/bin/gls -a -l -p --color=auto'
+alias ls='ls -p  --color'
+alias la='ls -a -p --color'
+alias ll='ls -a -l -p --color'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias top="htop"
@@ -29,23 +43,6 @@ setopt auto_list
 setopt auto_menu
 setopt magic_equal_subst
 setopt auto_param_keys
-
-FPATH=/usr/local/share/zsh-completions:$FPATH
-
-export LANG=ja_JP.UTF-8
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="/usr/sbin:$PATH"
-export PATH="/usr/bin:$PATH"
-export PATH="/sbin:$PATH"
-export PATH="/bin:$PATH"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export PATH="/usr/local/opt/sqlite/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-
 
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                              /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin \
@@ -79,14 +76,6 @@ typeset -xT SUDO_PATH sudo_path
 typeset -U sudo_path
 sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
-eval `dircolors ~/.dircolors-solarized/dircolors.ansi-dark`
-
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-if [ -n "$LS_COLORS" ]; then
-	zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-fi
-
-[[ -z "$TMUX" && ! -z "$PS1" ]] && exec tmux
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
